@@ -1,11 +1,18 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { createStore } from "redux"
+import { Provider } from "react-redux"
 // import App from "./App";
-import Hello from "./components/Hello";
-import "./index.css";
+// import "./index.css";
 import registerServiceWorker from "./registerServiceWorker";
+import Hello from "./Containers/HelloContainer";
+import { enthusiasm } from "./reducers";
+
+const store = createStore(enthusiasm, { enthusiasmLevel: 1, languageName: "Typescript" })
 
 ReactDOM.render(
-    <Hello name = "Typescript" enthusiasmLevel = {10} />,
+    <Provider store = { store }>
+        <Hello />
+    </Provider>,
     document.getElementById("root") as HTMLElement);
 registerServiceWorker();

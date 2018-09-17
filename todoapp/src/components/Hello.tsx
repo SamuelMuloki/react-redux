@@ -2,40 +2,28 @@ import * as React from "react";
 import "./ui/Hello.css";
 
 export interface HelloProps {
-    name:string;
+    name: string;
     enthusiasmLevel?: number;
+    onIncrement?: () => void;
+    onDecrement?: () => void;
 }
 
-interface HelloState {
-    currentEnthusiasm: number;
-}
+function Hello({ name, enthusiasmLevel = 1, onIncrement, onDecrement }: HelloProps) {
+    if (enthusiasmLevel <= 0) {
+        throw new Error("You could be a little more enthusiastic. :D");
+    }
 
-class Hello extends React.Component<HelloProps, HelloState> {
-    readonly state: HelloState = { currentEnthusiasm: this.props.enthusiasmLevel || 1 }
-
-    onIncrement = () => this.updateEnthusiasm(this.state.currentEnthusiasm + 1);
-    onDecrement = () => this.updateEnthusiasm(this.state.currentEnthusiasm - 1);
-
-    render() {
-        const { name } = this.props;
-        if (this.state.currentEnthusiasm <= 0) {
-            throw new Error("You could be a little more enthusiastic. :D");
-        }
-
-        return (
-            <div className = "hello">
-                <div className = "greeting">
-                    Hello { name + getExclamationMarks(this.state.currentEnthusiasm)}
-                </div>
-                <button onClick = {this.onIncrement}>+</button>
-                <button onClick = {this.onDecrement}>-</button>
+    return (
+        <div className="hello">
+            <div className="greeting">
+                Hello {name + getExclamationMarks(enthusiasmLevel)}
             </div>
-        )
-    }
-
-    updateEnthusiasm(currentEnthusiasm: number) {
-        this.setState({ currentEnthusiasm })
-    }
+            <div>
+                <button onClick={onDecrement}>-</button>
+                <button onClick={onIncrement}>+</button>
+            </div>
+        </div>
+    );
 }
 
 export default Hello;
